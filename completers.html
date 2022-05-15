@@ -1,0 +1,607 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js coal">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Completers - carapace-bin</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "coal";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('coal')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="carapace-bin.html"><strong aria-hidden="true">1.</strong> carapace-bin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="setup.html"><strong aria-hidden="true">1.2.</strong> Setup</a></li><li class="chapter-item expanded "><a href="completers.html" class="active"><strong aria-hidden="true">1.3.</strong> Completers</a></li><li class="chapter-item expanded "><a href="bridge.html"><strong aria-hidden="true">1.4.</strong> Bridge</a></li><li class="chapter-item expanded "><a href="style.html"><strong aria-hidden="true">1.5.</strong> Style</a></li><li class="chapter-item expanded "><a href="specs.html"><strong aria-hidden="true">1.6.</strong> Specs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="specs/examples.html"><strong aria-hidden="true">1.6.1.</strong> Examples</a></li><li class="chapter-item expanded "><a href="specs/macros.html"><strong aria-hidden="true">1.6.2.</strong> Macros</a></li></ol></li><li class="chapter-item expanded "><a href="development.html"><strong aria-hidden="true">1.7.</strong> Development</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="development/build.html"><strong aria-hidden="true">1.7.1.</strong> Build</a></li><li class="chapter-item expanded "><a href="development/docker-compose.html"><strong aria-hidden="true">1.7.2.</strong> docker-compose</a></li><li class="chapter-item expanded "><a href="development/creatingCompleters.html"><strong aria-hidden="true">1.7.3.</strong> Creating completers</a></li><li class="chapter-item expanded "><a href="development/tools.html"><strong aria-hidden="true">1.7.4.</strong> Tools</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="development/tools/carafmt.html"><strong aria-hidden="true">1.7.4.1.</strong> carafmt</a></li><li class="chapter-item expanded "><a href="development/tools/caralint.html"><strong aria-hidden="true">1.7.4.2.</strong> caralint</a></li><li class="chapter-item expanded "><a href="development/tools/caraparse.html"><strong aria-hidden="true">1.7.4.3.</strong> caraparse</a></li><li class="chapter-item expanded "><a href="development/tools/carascrape.html"><strong aria-hidden="true">1.7.4.4.</strong> carascrape</a></li><li class="chapter-item expanded "><a href="development/tools/generate.html"><strong aria-hidden="true">1.7.4.5.</strong> generate</a></li></ol></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">carapace-bin</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="completers"><a class="header" href="#completers">Completers</a></h1>
+<ul>
+<li><a href="https://www.commandlinux.com/man-page/man1/acpi.1.html">acpi</a> Shows information from the /proc filesystem</li>
+<li><a href="https://linux.die.net/man/8/acpid">acpid</a> Advanced Configuration and Power Interface event daemon</li>
+<li><a href="https://developer.android.com/studio/command-line/adb">adb</a> Android Debug Bridge</li>
+<li><a href="https://en.wikipedia.org/wiki/Alsamixer">alsamixer</a> soundcard mixer for ALSA soundcard driver, with ncurses interface</li>
+<li><a href="https://ant.apache.org/">ant</a> software tool for automating software build processes</li>
+<li><a href="https://en.wikipedia.org/wiki/Aplay">aplay</a> command-line sound recorder and player for ALSA soundcard driver</li>
+<li><a href="https://linux.die.net/man/1/apropos">apropos</a> search the manual page names and descriptions</li>
+<li><a href="https://linux.die.net/man/8/apt-cache">apt-cache</a> query the APT cache</li>
+<li><a href="https://linux.die.net/man/8/apt-get">apt-get</a> APT package handling utility</li>
+<li><a href="https://linux.die.net/man/1/arecord">arecord</a> command-line sound recorder and player for ALSA soundcard driver</li>
+<li><a href="https://asciinema.org/">asciinema</a> Record and share your terminal sessions, the right way.</li>
+<li><a href="https://linux.die.net/man/1/autoconf">autoconf</a> Generate a configuration script from a TEMPLATE-FILE</li>
+<li><a href="https://developer.android.com/studio/command-line/avdmanager">avdmanager</a> create and manage Android Virtual Devices</li>
+<li><a href="https://en.wikipedia.org/wiki/AWK">awk</a> pattern scanning and processing language</li>
+<li><a href="https://aws.amazon.com/cli/">aws</a> Universal Command Line Interface for Amazon Web Services</li>
+<li><a href="https://docs.microsoft.com/en-us/cli/azure/">az</a> Azure Command-Line Interface</li>
+<li><a href="https://wiki.gnome.org/action/show/Apps/DiskUsageAnalyzer">baobab</a> A graphical disk usage analyzer for the GNOME deskto</li>
+<li><a href="https://en.wikipedia.org/wiki/Basename">basename</a> strip directory and suffix from filenames</li>
+<li><a href="https://www.gnu.org/software/bash/">bash</a> GNU Bourne-Again SHell</li>
+<li><a href="https://github.com/sharkdp/bat">bat</a> a cat clone with syntax highlighting and Git integration</li>
+<li><a href="https://github.com/eth-p/bat-extras/blob/master/doc/batdiff.md">batdiff</a> Diff a file against the current git index, or display the diff between two files</li>
+<li><a href="https://github.com/eth-p/bat-extras/blob/master/doc/batgrep.md">batgrep</a> Quickly search through and highlight files using ripgrep</li>
+<li><a href="https://github.com/eth-p/bat-extras/blob/master/doc/batman.md">batman</a> Read system manual pages (man) using bat</li>
+<li><a href="https://github.com/bats-core/bats-core">bats</a> Bash Automated Testing System</li>
+<li><a href="https://linux.die.net/man/1/bc">bc</a> An arbitrary precision calculator language</li>
+<li><a href="https://github.com/psf/black">black</a> The uncompromising code formatter</li>
+<li><a href="https://www.boundaryproject.io/downloads">boundary</a> Boundary enables identity-based access management for dynamic infrastructure</li>
+<li><a href="https://brew.sh/">brew</a> The missing package manager for macOS</li>
+<li><a href="https://github.com/google/brotli">brotli</a> compress or decompress files</li>
+<li><a href="https://calibre-ebook.com/">calibre</a> Comprehensive e-book software</li>
+<li><a href="https://github.com/rsteube/carapace-bin">carapace</a> multi-shell multi-command argument completer</li>
+<li><a href="https://doc.rust-lang.org/cargo/">cargo</a> Rust's package manager</li>
+<li><a href="https://linux.die.net/man/1/cat">cat</a> concatenate files and print on the standard output</li>
+<li><a href="https://en.wikipedia.org/wiki/Cfdisk">cfdisk</a> display or manipulate a disk partition table</li>
+<li><a href="https://wiki.gnome.org/Apps/Cheese">cheese</a> tool to take pictures and videos from your webcam</li>
+<li><a href="https://en.wikipedia.org/wiki/Chgrp">chgrp</a> change group ownership</li>
+<li><a href="https://en.wikipedia.org/wiki/Chmod">chmod</a> change file mode bits</li>
+<li><a href="https://en.wikipedia.org/wiki/Chown">chown</a> change file owner and group</li>
+<li><a href="https://linux.die.net/man/8/chpasswd">chpasswd</a> update passwords in batch mode</li>
+<li><a href="https://www.chromium.org/Home">chromium</a> chromium browser</li>
+<li><a href="https://en.wikipedia.org/wiki/Chroot">chroot</a> run command or interactive shell with special root directory</li>
+<li><a href="https://en.wikipedia.org/wiki/Chsh">chsh</a> Change your login shell</li>
+<li><a href="https://github.com/CircleCI-Public/circleci-cli">circleci</a> Use CircleCI from the command line</li>
+<li><a href="https://en.wikipedia.org/wiki/Cksum">cksum</a> checksum and count the bytes in a file</li>
+<li><a href="http://www.clamav.net/">clamav-config</a> clamav config</li>
+<li><a href="http://www.clamav.net/">clamav-milter</a> milter compatible scanner</li>
+<li><a href="http://www.clamav.net/">clambc</a> Bytecode Analysis and Testing Tool</li>
+<li><a href="http://www.clamav.net/">clamconf</a> Clam AntiVirus configuration utility</li>
+<li><a href="http://www.clamav.net/">clamd</a> an anti-virus daemon</li>
+<li><a href="http://www.clamav.net/">clamdscan</a> scan files and directories for viruses using Clam AntiVirus Daemon</li>
+<li><a href="http://www.clamav.net/">clamdtop</a> monitor the Clam AntiVirus Daemon</li>
+<li><a href="http://www.clamav.net/">clamonacc</a> an anti-virus on-access scanning daemon and clamd client</li>
+<li><a href="http://www.clamav.net/">clamscan</a> scan files and directories for viruses</li>
+<li><a href="http://www.clamav.net/">clamsubmit</a> File submission utility for ClamAV</li>
+<li><a href="https://cmus.github.io/">cmus</a> Curses based music player</li>
+<li><a href="https://code.visualstudio.com/">code</a> Visual Studio Code</li>
+<li><a href="https://docs.codecov.com/docs/codecov-uploader">codecov</a> codecov uploader</li>
+<li><a href="https://code.visualstudio.com/insiders/">code-insiders</a> Visual Studio Code Insiders</li>
+<li><a href="https://linux.die.net/man/1/comm">comm</a> compare two sorted files line by line</li>
+<li><a href="https://docs.conda.io/en/latest/">conda</a> conda is a tool for managing and deploying applications, environments and packages</li>
+<li><a href="https://github.com/brndnmtthws/conky">conky</a> A system  monitor for X originally based on the torsmo code</li>
+<li><a href="https://www.consul.io/">consul</a> Consul automates networking for simple and secure application delivery</li>
+<li><a href="https://www.freedesktop.org/software/systemd/man/coredumpctl.html">coredumpctl</a> List or retrieve coredumps from the journal</li>
+<li><a href="https://linux.die.net/man/1/cp">cp</a> copy files and directories</li>
+<li><a href="https://linux.die.net/man/1/csplit">csplit</a> split a file into sections determined by context lines</li>
+<li><a href="https://ultimaker.com/software/ultimaker-cura">cura</a> Powerful, easy-to-use 3D printing software</li>
+<li><a href="https://github.com/curl/curl">curl</a> transfer a URL</li>
+<li><a href="https://linux.die.net/man/1/cut">cut</a> remove sections from each line of files</li>
+<li><a href="https://darktable-org.github.io/dtdocs/en-us/special-topics/program-invocation/darktable-cli/">darktable-cli</a> a command line darktable variant</li>
+<li><a href="https://darktable-org.github.io/dtdocs/en-us/">darktable</a> a digital photography workflow application</li>
+<li><a href="https://dart.dev/">dart</a> A command-line utility for Dart development</li>
+<li><a href="https://linux.die.net/man/1/date">date</a> print or set the system date and time</li>
+<li><a href="https://linux.die.net/man/1/dc">dc</a> an arbitrary precision calculator</li>
+<li><a href="https://linux.die.net/man/1/dd">dd</a> convert and copy a file</li>
+<li><a href="https://deno.land/">deno</a> A modern JavaScript and TypeScript runtime</li>
+<li><a href="https://github.com/rolinh/dfc">dfc</a> report file system space usage information with style</li>
+<li><a href="https://linux.die.net/man/1/df">df</a> report file system disk space usage</li>
+<li><a href="https://linux.die.net/man/1/dict">dict</a> Query a dictd server for the definition of a word</li>
+<li><a href="https://linux.die.net/man/1/diff3">diff3</a> compare three files line by line</li>
+<li><a href="https://linux.die.net/man/1/diff">diff</a> compare files line by line</li>
+<li><a href="https://linux.die.net/man/1/dig">dig</a> DNS lookup utility</li>
+<li><a href="https://linux.die.net/man/1/dircolors">dircolors</a> color setup for ls</li>
+<li><a href="https://linux.die.net/man/1/dir">dir</a> list directory contents</li>
+<li><a href="https://linux.die.net/man/1/dirname">dirname</a> strip last component from file name</li>
+<li><a href="https://github.com/go-delve/delve">dlv</a> Delve is a debugger for the Go programming language.</li>
+<li><a href="https://linux.die.net/man/1/dmenu">dmenu</a> dynamic menu</li>
+<li><a href="https://linux.die.net/man/8/dmesg">dmesg</a> Display or control the kernel ring buffer</li>
+<li><a href="https://github.com/anacrolix/dms">dms</a> A UPnP DLNA Digital Media Server</li>
+<li><a href="https://en.wikipedia.org/wiki/Dnsmasq">dnsmasq</a> A lightweight DHCP and caching DNS server</li>
+<li><a href="https://github.com/docker/buildx">docker-buildx</a> Docker Buildx</li>
+<li><a href="https://docs.docker.com/compose/">docker</a> Docker image and container command line interface</li>
+<li><a href="https://docs.docker.com/compose/">docker-compose</a> Define and run multi-container applications with Docker</li>
+<li><a href="https://docs.docker.com/engine/reference/commandline/dockerd/">dockerd</a> A self-sufficient runtime for containers</li>
+<li><a href="https://docs.digitalocean.com/reference/doctl/">doctl</a> doctl is a command line interface (CLI) for the DigitalOcean API</li>
+<li><a href="https://en.wikipedia.org/wiki/Unix2dos">dos2unix</a> DOS/Mac to Unix and vice versa text file format converter</li>
+<li><a href="https://github.com/pbrisbin/downgrade">downgrade</a> Downgrade Arch Linux packages</li>
+<li><a href="https://linux.die.net/man/1/du">du</a> estimate file space usage</li>
+<li><a href="https://linux.die.net/man/1/grep">egrep</a> print lines that match patterns</li>
+<li><a href="https://www.electronjs.org/">electron</a> Build cross platform desktop apps with JavaScript, HTML, and CSS</li>
+<li><a href="https://elv.sh/">elvish</a> expressive programming language and a versatile interactive shell</li>
+<li><a href="https://linux.die.net/man/1/env">env</a> run a program in a modified environment</li>
+<li><a href="https://linux.die.net/man/1/envsubst">envsubst</a> Substitutes the values of environment variables</li>
+<li><a href="https://the.exa.website/">exa</a> a modern replacement for ls</li>
+<li><a href="https://linux.die.net/man/1/expand">expand</a> convert tabs to spaces</li>
+<li><a href="https://en.wikipedia.org/wiki/Expr">expr</a> evaluate expressions</li>
+<li><a href="https://github.com/openfaas/faas-cli">faas-cli</a> Manage your OpenFaaS functions from the command line</li>
+<li><a href="https://linux.die.net/man/1/factor">factor</a> factor numbers</li>
+<li><a href="https://linux.die.net/man/1/fakechroot">fakechroot</a> gives a fake chroot environment</li>
+<li><a href="https://linux.die.net/man/1/fakeroot-sysv">fakeroot</a> run a command in an environment faking root privileges for file manipulation</li>
+<li><a href="https://linux.die.net/man/1/fc-cache">fc-cache</a> Build font information caches</li>
+<li><a href="https://github.com/sharkdp/fd">fd</a> find entries in the filesystem</li>
+<li><a href="https://en.wikipedia.org/wiki/Fdisk">fdisk</a> manipulate disk partition table</li>
+<li><a href="https://ffmpeg.org/">ffmpeg</a> Hyper fast Audio and Video encoder</li>
+<li><a href="https://en.wikipedia.org/wiki/Grep">fgrep</a> print lines that match patterns</li>
+<li><a href="https://linux.die.net/man/1/file">file</a> determine file type</li>
+<li><a href="https://linux.die.net/man/1/find">find</a> search for files in a directory hierarchy</li>
+<li><a href="https://www.mozilla.org/en-US/firefox/new/">firefox</a> Firefox Browser</li>
+<li><a href="https://fishshell.com/">fish</a> the friendly interactive shell</li>
+<li><a href="https://flutter.dev/">flutter</a> Manage your Flutter app development</li>
+<li><a href="https://linux.die.net/man/1/fmt">fmt</a> simple optimal text formatter</li>
+<li><a href="https://linux.die.net/man/1/fold">fold</a> wrap each input line to fit in specified width</li>
+<li><a href="https://linux.die.net/man/1/ftp">ftp</a> File Transfer Protocol client</li>
+<li><a href="https://linux.die.net/man/8/ftpd">ftpd</a> File Transfer Protocol daemon</li>
+<li><a href="https://github.com/junegunn/fzf">fzf</a> a command-line fuzzy finder</li>
+<li><a href="https://www.gatsbyjs.com/">gatsby</a> Build blazing fast, modern apps and websites with React</li>
+<li><a href="https://cloud.google.com/sdk/gcloud/">gcloud</a> manage Google Cloud Platform resources and developer workflow</li>
+<li><a href="https://github.com/dundee/gdu">gdu</a> Pretty fast disk usage analyzer written in Go</li>
+<li><a href="https://github.com/masneyb/gftp">gftp</a> file transfer client for *NIX based machines</li>
+<li><a href="https://cli.github.com/">gh</a> GitHub CLI</li>
+<li><a href="https://www.gimp.org/">gimp</a> an image manipulation and paint program</li>
+<li><a href="https://git-scm.com/">git</a> the stupid content tracker</li>
+<li><a href="https://git-scm.com/docs/gitk">gitk</a> The Git repository browser</li>
+<li><a href="https://glab.readthedocs.io/en/latest/">glab</a> A GitLab CLI Tool</li>
+<li><a href="https://wiki.gnome.org/Projects/GnomeKeyring/">gnome-keyring</a> The gnome-keyring commandline tool</li>
+<li><a href="https://wiki.gnome.org/Projects/GnomeKeyring/">gnome-keyring-daemon</a> The Gnome Keyring Daemon</li>
+<li><a href="https://apps.gnome.org/app/org.gnome.Maps/">gnome-maps</a> A map application for GNOME</li>
+<li><a href="https://help.gnome.org/users/gnome-terminal/stable/">gnome-terminal</a> A terminal emulator for GNOME</li>
+<li><a href="https://github.com/msoap/go-carpet">go-carpet</a> show test coverage for Go source files</li>
+<li><a href="https://golang.org/">go</a> Go is a tool for managing Go source code</li>
+<li><a href="https://github.com/fzipp/gocyclo">gocyclo</a> Calculate cyclomatic complexities of Go functions</li>
+<li><a href="https://pkg.go.dev/cmd/gofmt">gofmt</a> format Go source code</li>
+<li><a href="https://www.google.com/chrome/index.html">google-chrome</a> chrome browser</li>
+<li><a href="https://goreleaser.com/">goreleaser</a> Deliver Go binaries as fast and easily as possible</li>
+<li><a href="https://github.com/jondot/goweight">goweight</a> A tool to analyze and troubleshoot a Go binary size</li>
+<li><a href="https://gparted.org/">gparted</a> GNOME Partition Editor for manipulating disk partitions</li>
+<li><a href="https://linux.die.net/man/1/gpasswd">gpasswd</a> administer /etc/group and /etc/gshadow</li>
+<li><a href="https://linux.die.net/man/1/gpg-agent">gpg-agent</a> Secret key management for GnuPG</li>
+<li><a href="https://gnupg.org/">gpg</a> OpenPGP encryption and signing tool</li>
+<li><a href="https://gradle.org/">gradle</a> Gradle Build Tool</li>
+<li><a href="https://www.gnu.org/software/grep/">grep</a> print lines that match patterns</li>
+<li><a href="https://linux.die.net/man/8/groupadd">groupadd</a> create a new group</li>
+<li><a href="https://linux.die.net/man/8/groupdel">groupdel</a> delete a group</li>
+<li><a href="https://linux.die.net/man/8/groupmems">groupmems</a> administer members of a user's primary group</li>
+<li><a href="https://linux.die.net/man/8/groupmod">groupmod</a> modify a group definition on the system</li>
+<li><a href="https://linux.die.net/man/1/groups">groups</a> display current group names</li>
+<li><a href="https://github.com/gulpjs/gulp-cli">gulp</a> Command Line Interface for gulp</li>
+<li><a href="https://linux.die.net/man/1/gunzip">gunzip</a> Uncompress files</li>
+<li><a href="https://linux.die.net/man/1/gzip">gzip</a> Compress or uncompress files</li>
+<li><a href="https://linux.die.net/man/8/halt">halt</a> halt the machine</li>
+<li><a href="https://linux.die.net/man/1/head">head</a> output the first part of files</li>
+<li><a href="https://helm.sh/">helm</a> The Helm package manager for Kubernetes.</li>
+<li><a href="https://github.com/Praqma/Helmsman">helmsman</a> Helmsman is a Helm Charts as Code tool</li>
+<li><a href="https://hexchat.github.io/">hexchat</a> IRC Client</li>
+<li><a href="https://linux.die.net/man/1/hexdump">hexdump</a> Display file contents in hexadecimal, decimal, octal, or ascii</li>
+<li><a href="https://linux.die.net/man/1/hostid">hostid</a> print the numeric identifier for the current host</li>
+<li><a href="https://linux.die.net/man/1/hostname">hostname</a> show or set system host name</li>
+<li><a href="https://htop.dev/">htop</a> interactive process viewer</li>
+<li><a href="https://httpie.io/">http</a> command-line HTTP client for the API era</li>
+<li><a href="https://httpie.io/">https</a> command-line HTTP client for the API era</li>
+<li><a href="https://gohugo.io/">hugo</a> hugo builds your site</li>
+<li><a href="https://github.com/openSUSE/hwinfo">hwinfo</a> Probe for hardware</li>
+<li><a href="https://i3wm.org/">i3</a> an improved dynamic, tiling window manager</li>
+<li><a href="https://aur.archlinux.org/packages/i3exit/">i3exit</a> exit-script for i3</li>
+<li><a href="https://i3wm.org/i3lock/">i3lock</a> improved screen locker</li>
+<li><a href="https://gitlab.manjaro.org/packages/community/i3/i3-scrot">i3-scrot</a> simple screenshot script</li>
+<li><a href="https://i3wm.org/i3status/">i3status</a> Generates a status line for i3bar, dzen2, xmobar or lemonbar</li>
+<li><a href="https://github.com/greshake/i3status-rust">i3status-rs</a> A feature-rich and resource-friendly replacement for i3status, written in Rust</li>
+<li><a href="https://linux.die.net/man/1/id">id</a> Print user and group information</li>
+<li><a href="https://inkscape.org/">inkscape</a> an SVG (Scalable Vector Graphics) editing program</li>
+<li><a href="https://linux.die.net/man/1/install">install</a> copy files and set attributes</li>
+<li><a href="https://gitlab.redox-os.org/redox-os/ion/">ion</a> The Ion Shell</li>
+<li><a href="https://docs.oracle.com/en/java/javase/16/docs/specs/man/jar.html">jar</a> create an archive for classes and resources</li>
+<li><a href="https://en.wikipedia.org/wiki/Javac">javac</a> Reads Java class and interface definitions and compiles them into bytecode and class files</li>
+<li><a href="https://en.wikipedia.org/wiki/Java_(programming_language)">java</a> Launches a Java application</li>
+<li><a href="https://linux.die.net/man/1/join">join</a> join lines of two files on a common field</li>
+<li><a href="https://man7.org/linux/man-pages/man1/journalctl.1.html">journalctl</a> Query the journal</li>
+<li><a href="https://stedolan.github.io/jq/">jq</a> Command-line JSON processor</li>
+<li><a href="https://julialang.org/">julia</a> high-level, high-performance dynamic programming language for technical computing</li>
+<li><a href="http://kakoune.org/">kak</a> a vim-inspired, selection oriented code editor</li>
+<li><a href="https://github.com/kak-lsp/kak-lsp">kak-lsp</a> Kakoune Language Server Protocol Client</li>
+<li><a href="https://linux.die.net/man/1/killall">killall</a> kill processes by name</li>
+<li><a href="https://linux.die.net/man/1/kill">kill</a> Forcibly terminate a process</li>
+<li><a href="https://github.com/kmonad/kmonad">kmonad</a> an onion of buttons</li>
+<li><a href="https://kompose.io/">kompose</a> A tool helping Docker Compose users move to Kubernetes</li>
+<li><a href="https://ktlint.github.io/">ktlint</a> An anti-bikeshedding Kotlin linter with built-in formatter</li>
+<li><a href="https://kubernetes.io/docs/reference/setup-tools/kubeadm/">kubeadm</a> kubeadm: easily bootstrap a secure Kubernetes cluster</li>
+<li><a href="https://kubernetes.io/docs/reference/kubectl/overview/">kubectl</a> kubectl controls the Kubernetes cluster manager</li>
+<li><a href="https://github.com/gokcehan/lf">lf</a> terminal file manager</li>
+<li><a href="https://github.com/canonical/lightdm">lightdm</a> a display manager</li>
+<li><a href="https://linux.die.net/man/3/link">link</a> call the link function to create a link to a file</li>
+<li><a href="https://lnav.org/">lnav</a> ncurses-based log file viewer</li>
+<li><a href="https://linux.die.net/man/1/ln">ln</a> make links between files</li>
+<li><a href="https://linux.die.net/man/1/locale">locale</a> Get locale-specific information</li>
+<li><a href="https://www.man7.org/linux/man-pages/man1/localectl.1.html">localectl</a> Query or change system locale and keyboard settings</li>
+<li><a href="https://linux.die.net/man/1/logname">logname</a> print user's login name</li>
+<li><a href="https://linux.die.net/man/8/lsblk">lsblk</a> list block devices</li>
+<li><a href="https://linux.die.net/man/1/lsb_release">lsb_release</a> prints certain LSB (Linux Standard Base) and Distribution information</li>
+<li><a href="https://linux.die.net/man/1/ls">ls</a> list directory contents</li>
+<li><a href="https://linux.die.net/man/1/lscpu">lscpu</a> display information about the CPU architecture</li>
+<li><a href="https://man7.org/linux/man-pages/man8/lslocks.8.html">lslocks</a> List local system locks</li>
+<li><a href="https://man7.org/linux/man-pages/man1/lslogins.1.html">lslogins</a> Display information about known users in the system</li>
+<li><a href="https://www.man7.org/linux/man-pages/man1/lsmem.1.html">lsmem</a> list the ranges of available memory with their online status</li>
+<li><a href="https://man7.org/linux/man-pages/man8/lsns.8.html">lsns</a> List system namespaces</li>
+<li><a href="https://linux.die.net/man/8/lsusb">lsusb</a> list USB devices</li>
+<li><a href="https://www.lua.org/">lua</a> Lua interpreter</li>
+<li><a href="https://linux.die.net/man/1/xz">lzcat</a> Compress or decompress .xz and .lzma files</li>
+<li><a href="https://linux.die.net/man/1/xz">lzma</a> Compress or decompress .xz and .lzma files</li>
+<li><a href="https://linux.die.net/man/1/make">make</a> GNU make utility to maintain groups of programs</li>
+<li><a href="https://wiki.archlinux.org/title/Makepkg">makepkg</a> make packages compatible for use with pacman</li>
+<li><a href="https://man7.org/linux/man-pages/man1/man.1.html">man</a> an interface to the system reference manuals</li>
+<li><a href="https://sourceforge.net/projects/mcomix/">mcomix</a> GTK Comic Book Viewer</li>
+<li><a href="https://linux.die.net/man/1/md5sum">md5sum</a> compute and check MD5 message digest</li>
+<li><a href="https://github.com/rust-lang/mdBook">mdbook</a> Creates a book from markdown files</li>
+<li><a href="https://meldmerge.org/">meld</a> Meld is a file and directory comparison tool</li>
+<li><a href="https://micro-editor.github.io/">micro</a> A modern and intuitive terminal-based text editor</li>
+<li><a href="https://minikube.sigs.k8s.io/docs/">minikube</a> minikube quickly sets up a local Kubernetes cluster</li>
+<li><a href="https://linux.die.net/man/1/mkdir">mkdir</a> make directories</li>
+<li><a href="https://linux.die.net/man/3/mkfifo">mkfifo</a> make FIFOs (named pipes)</li>
+<li><a href="https://linux.die.net/man/8/mkfs">mkfs</a> Make a Linux filesystem</li>
+<li><a href="https://linux.die.net/man/3/mknod">mknod</a> make block or character special files</li>
+<li><a href="https://linux.die.net/man/8/mkswap">mkswap</a> Set up a Linux swap area</li>
+<li><a href="https://linux.die.net/man/1/mktemp">mktemp</a> create a temporary file or directory</li>
+<li><a href="https://linux.die.net/man/8/modinfo">modinfo</a> Show information about a Linux Kernel module</li>
+<li><a href="https://linux.die.net/man/8/modprobe">modprobe</a> Add and remove modules from the Linux Kernel</li>
+<li><a href="https://linux.die.net/man/1/more">more</a> file perusal filter for crt viewing</li>
+<li><a href="https://mosh.org/">mosh</a> mobile shell with roaming and intelligent local echo</li>
+<li><a href="https://linux.die.net/man/8/mount">mount</a> mount a filesystem</li>
+<li><a href="http://users.xfce.org/%7Ebenny/xfce/apps.html">mousepad</a> Mousepad is a simple text editor for the Xfce desktop environment</li>
+<li><a href="https://mpv.io/">mpv</a> a media player</li>
+<li><a href="https://linux.die.net/man/1/mv">mv</a> move (rename) files</li>
+<li><a href="https://maven.apache.org/">mvn</a> Apache Maven is a software project management and comprehension tool</li>
+<li><a href="https://www.nano-editor.org/">nano</a> Nano's ANOther editor, inspired by Pico</li>
+<li><a href="https://nc110.sourceforge.io/">nc</a> simple Unix utility which reads and writes data across network connections</li>
+<li><a href="https://linux.die.net/man/1/ncdu">ncdu</a> NCurses Disk Usage</li>
+<li><a href="https://neomutt.org/">neomutt</a> The NeoMutt Mail User Agent</li>
+<li><a href="https://nc110.sourceforge.io/">netcat</a> simple Unix utility which reads and writes data across network connections</li>
+<li><a href="https://github.com/postmanlabs/newman">newman</a> Newman is a command-line collection runner for Postman</li>
+<li><a href="https://github.com/goreleaser/nfpm">nfpm</a> Packages apps on RPM, Deb and APK formats based on a YAML configuration file</li>
+<li><a href="https://angular.io/cli">ng</a> The Angular CLI</li>
+<li><a href="https://linux.die.net/man/1/nice">nice</a> run a program with modified scheduling priority</li>
+<li><a href="https://linux.die.net/man/1/nl">nl</a> number lines of files</li>
+<li><a href="https://developer-old.gnome.org/NetworkManager/stable/nmcli.html">nmcli</a> command-line tool for controlling NetworkManager</li>
+<li><a href="https://nodejs.org/en/">node</a> server-side JavaScript runtime</li>
+<li><a href="https://linux.die.net/man/1/nohup">nohup</a> run a command immune to hangups, with output to a non-tty</li>
+<li><a href="https://www.nomadproject.io/">nomad</a> Nomad is an easy-to-use, flexible, and performant workload orchestrator</li>
+<li><a href="https://www.npmjs.com/">npm</a> the package manager for JavaScript</li>
+<li><a href="https://linux.die.net/man/8/ntpd">ntpd</a> NTP daemon program</li>
+<li><a href="https://www.nushell.sh/">nu</a> Nushell</li>
+<li><a href="https://neovim.io/">nvim</a> edit text</li>
+<li><a href="https://linux.die.net/man/1/od">od</a> dump files in octal and other formats</li>
+<li><a href="https://openscad.org/">openscad</a> script file based graphical CAD environment</li>
+<li><a href="http://optipng.sourceforge.net/">optipng</a> Optimize Portable Network Graphics files</li>
+<li><a href="https://www.packer.io/">packer</a> Create identical machine images for multiple platforms from a single source configuration.</li>
+<li><a href="https://wiki.archlinux.de/title/Pacman">pacman</a> package manager utility</li>
+<li><a href="https://www.palemoon.org/">palemoon</a> Pale Moon browser</li>
+<li><a href="https://wiki.manjaro.org/index.php/Pamac">pamac</a> package manager utility</li>
+<li><a href="https://pandoc.org/">pandoc</a> general markup converter</li>
+<li><a href="https://www.passwordstore.org/">pass</a> stores, retrieves, generates, and synchronizes passwords securely</li>
+<li><a href="https://linux.die.net/man/1/passwd">passwd</a> change user password</li>
+<li><a href="https://linux.die.net/man/1/paste">paste</a> merge lines of files</li>
+<li><a href="https://linux.die.net/man/1/patch">patch</a> appy a diff file to an original</li>
+<li><a href="https://linux.die.net/man/1/pathchk">pathchk</a> check whether file names are valid or portable</li>
+<li><a href="https://wiki.lxde.org/en/PCManFM">pcmanfm</a> A lightweight Gtk+ based file manager for X Window</li>
+<li><a href="https://linux.die.net/man/1/pgrep">pgrep</a> look up processes based on name and other attributes</li>
+<li><a href="https://picard.musicbrainz.org/">picard</a> Picard is a cross-platform music tagger written in Python</li>
+<li><a href="https://linux.die.net/man/8/ping">ping</a> send ICMP ECHO_REQUEST to network hosts</li>
+<li><a href="https://linux.die.net/man/1/pinky">pinky</a> lightweight finger</li>
+<li><a href="https://pip.pypa.io/en/stable/">pip</a> package manager for Python packages</li>
+<li><a href="https://wiki.termux.com/wiki/Package_Management">pkg</a> A tool for managing packages</li>
+<li><a href="https://linux.die.net/man/1/pkill">pkill</a> look up for processes based on name and other attributes</li>
+<li><a href="https://podman.io/">podman</a> Simple management tool for pods, containers and images</li>
+<li><a href="https://linux.die.net/man/8/poweroff">poweroff</a> poweroff the machine</li>
+<li><a href="https://linux.die.net/man/1/pr">pr</a> convert text files for printing</li>
+<li><a href="https://github.com/eth-p/bat-extras/blob/master/doc/prettybat.md">prettybat</a> Pretty-print source code and highlight it with bat</li>
+<li><a href="https://github.com/denilsonsa/prettyping">prettyping</a> This script is a wrapper around the system's &quot;ping&quot; tool</li>
+<li><a href="https://linux.die.net/man/1/printenv">printenv</a> print all or part of environment</li>
+<li><a href="https://linux.die.net/man/1/ptx">ptx</a> produce a permuted index of file contents</li>
+<li><a href="https://www.pulumi.com/">pulumi</a> Pulumi command line</li>
+<li><a href="https://linux.die.net/man/1/pgrep">pwait</a> wait for processes based on name and other attributes</li>
+<li><a href="https://linux.die.net/man/1/pwd">pwd</a> Print the full filename of the current working directory</li>
+<li><a href="https://www.python.org/">python</a> an interpreted, interactive, object-oriented programming language</li>
+<li><a href="https://github.com/qmk/qmk_cli">qmk</a> CLI wrapper for running QMK commands</li>
+<li><a href="https://linux.die.net/man/1/qrencode">qrencode</a> Encode input data in a QR Code and save as a PNG or EPS image</li>
+<li><a href="https://qutebrowser.org/">qutebrowser</a> a keyboard-driven, vim-like browser based on PyQt5</li>
+<li><a href="https://github.com/ranger/ranger">ranger</a> visual file manager</li>
+<li><a href="https://linux.die.net/man/1/readlink">readlink</a> print resolved symbolic links or canonical file names</li>
+<li><a href="https://linux.die.net/man/8/reboot">reboot</a> reboot the machine</li>
+<li><a href="https://restic.net/">restic</a> Backup and restore files</li>
+<li><a href="https://github.com/jsonresume/resume-cli">resume-cli</a> command line tool for JSON Resume</li>
+<li><a href="https://github.com/BurntSushi/ripgrep">rg</a> recursively search current directory for lines matching a pattern</li>
+<li><a href="https://ranger.github.io/">rifle</a> ranger's file opener</li>
+<li><a href="https://linux.die.net/man/1/rm">rm</a> remove files or directories</li>
+<li><a href="https://linux.die.net/man/1/rmdir">rmdir</a> remove empty directories</li>
+<li><a href="https://linux.die.net/man/8/rmmod">rmmod</a> Simple program to remove a module from the Linux Kernel</li>
+<li><a href="https://github.com/WayneD/rsync/">rsync</a> a fast, versatile, remote (and local) file-copying tool</li>
+<li><a href="https://doc.rust-lang.org/rustc/index.html">rustc</a> compiler for the Rust programming language</li>
+<li><a href="https://rustup.rs/">rustup</a> installer for the systems programming language Rust</li>
+<li><a href="https://linux.die.net/man/1/scp">scp</a> OpenSSH secure file copy</li>
+<li><a href="https://en.wikipedia.org/wiki/Scrot">scrot</a> command line screen capture utility</li>
+<li><a href="https://developer.android.com/studio/command-line/sdkmanager">sdkmanager</a> Android SDK manager</li>
+<li><a href="https://www.gnu.org/software/sed/manual/sed.html">sed</a> stream editor for filtering and transforming text</li>
+<li><a href="https://github.com/npm/node-semver">semver</a> A JavaScript implementation of the https://semver.org/ specification</li>
+<li><a href="https://linux.die.net/man/1/seq">seq</a> print a sequence of numbers</li>
+<li><a href="https://linux.die.net/man/1/sftp">sftp</a> OpenSSH secure file transfer</li>
+<li><a href="https://linux.die.net/man/1/sha1sum">sha1sum</a> compute and check SHA1 message digest</li>
+<li><a href="https://linux.die.net/man/1/sha256sum">sha256sum</a> compute and check SHA256 message digest</li>
+<li><a href="https://linux.die.net/man/1/shred">shred</a> overwrite a file to hide its contents, and optionally delete it</li>
+<li><a href="https://linux.die.net/man/8/shutdown">shutdown</a> Shut down the system</li>
+<li><a href="https://linux.die.net/man/3/sleep">sleep</a> delay for a specified amount of time</li>
+<li><a href="https://linux.die.net/man/1/sort">sort</a> sort lines of text files</li>
+<li><a href="https://www.speedtest.net/apps/cli">speedtest-cli</a> Command line interface for testing internet bandwidth using speedtest.net</li>
+<li><a href="https://linux.die.net/man/1/split">split</a> split a file into pieces</li>
+<li><a href="https://linux.die.net/man/1/ssh-agent">ssh-agent</a> OpenSSH authentication agent</li>
+<li><a href="https://linux.die.net/man/1/ssh">ssh</a> OpenSSH remote login client</li>
+<li><a href="https://linux.die.net/man/1/ssh-copy-id">ssh-copy-id</a> use locally available keys to authorise logins on a remote machine</li>
+<li><a href="https://starship.rs/">starship</a> The cross-shell prompt for astronauts</li>
+<li><a href="https://linux.die.net/man/2/stat">stat</a> display file or file system status</li>
+<li><a href="https://staticcheck.io/">staticcheck</a> The advanced Go linter</li>
+<li><a href="https://st.suckless.org/">st</a> simple terminal</li>
+<li><a href="https://linux.die.net/man/1/strings">strings</a> print the sequences of printable characters in files</li>
+<li><a href="https://linux.die.net/man/1/stty">stty</a> change and print terminal line settings</li>
+<li><a href="https://linux.die.net/man/1/su">su</a> run a command with substitute user and group ID</li>
+<li><a href="https://linux.die.net/man/8/sudo">sudo</a> execute a command as another user</li>
+<li><a href="https://linux.die.net/man/8/sudoedit">sudoedit</a> edit files as another user</li>
+<li><a href="https://linux.die.net/man/8/sudoreplay">sudoreplay</a> replay sudo session logs</li>
+<li><a href="https://linux.die.net/man/8/sulogin">sulogin</a> single-user login</li>
+<li><a href="https://linux.die.net/man/1/sum">sum</a> checksum and count the blocks in a file</li>
+<li><a href="http://supervisord.org/">supervisord</a> run a set of applications as daemons</li>
+<li><a href="https://github.com/marionebl/svg-term-cli">svg-term</a> Share terminal sessions as razor-sharp animated SVG everywhere</li>
+<li><a href="https://linux.die.net/man/8/sync">sync</a> Synchronize cached writes to persistent storage</li>
+<li><a href="https://linux.die.net/man/8/sysctl">sysctl</a> configure kernel parameters at runtime</li>
+<li><a href="https://systemd.io/">systemctl</a> Query or send control commands to the system manager</li>
+<li><a href="https://linux.die.net/man/1/tac">tac</a> concatenate and print files in reverse</li>
+<li><a href="https://linux.die.net/man/1/tail">tail</a> output the last part of files</li>
+<li><a href="https://linux.die.net/man/1/tar">tar</a> tar - an archiving utility</li>
+<li><a href="https://linux.die.net/man/1/tee">tee</a> read from standard input and write to standard output and files</li>
+<li><a href="https://linux.die.net/man/1/telnet">telnet</a> User interface to TELNET</li>
+<li><a href="https://www.terraform.io/">terraform</a> infrastructure as code software tool</li>
+<li><a href="https://terragrunt.gruntwork.io/">terragrunt</a> Terragrunt is a thin wrapper for Terraform</li>
+<li><a href="https://github.com/tesseract-ocr/tessdoc">tesseract</a> command-line OCR engine</li>
+<li><a href="https://jonas.github.io/tig/">tig</a> text-mode interface for Git</li>
+<li><a href="https://tinygo.org/">tinygo</a> TinyGo is a Go compiler for small places</li>
+<li><a href="https://github.com/tldr-pages/tldr-python-client">tldr</a> Python command line client for tldr</li>
+<li><a href="https://tmate.io/">tmate</a> Instant terminal sharing</li>
+<li><a href="https://github.com/tmux/tmux/wiki">tmux</a> terminal multiplexer</li>
+<li><a href="https://github.com/toitlang/toit">toit.lsp</a> start the lsp server</li>
+<li><a href="https://github.com/toitlang/toit">toit.pkg</a> The Toit package manager</li>
+<li><a href="https://linux.die.net/man/1/top">top</a> display Linux processes</li>
+<li><a href="https://www.torproject.org/">tor-browser</a> Tor Browser</li>
+<li><a href="https://www.torproject.org/">tor-gencert</a> Generate certs and keys for Tor directory authorities</li>
+<li><a href="https://www.torproject.org/">tor-print-ed-signing-cert</a> print expiration date of ed25519 signing certificate</li>
+<li><a href="https://www.torproject.org/">tor-resolve</a> resolve a hostname to an IP address via tor</li>
+<li><a href="https://www.torproject.org/">torsocks</a> Shell wrapper to simplify the use of the torsocks(8) library to transparently torify an application</li>
+<li><a href="https://linux.die.net/man/1/touch">touch</a> change file timestamps</li>
+<li><a href="https://traefik.io/">traefik</a> Traefik is a modern HTTP reverse proxy and load balancer made to deploy microservices with ease</li>
+<li><a href="https://linux.die.net/man/1/tr">tr</a> translate or delete characters</li>
+<li><a href="https://linux.die.net/man/1/tree">tree</a> list contents of directories in a tree-like format</li>
+<li><a href="https://linux.die.net/man/1/truncate">truncate</a> Shrink or extend the size of each FILE to the specified size</li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html">tsc</a> The TypeScript Compiler</li>
+<li><a href="https://linux.die.net/man/1/ts">ts</a> timestamp input</li>
+<li><a href="https://tshark.dev/">tshark</a> Dump and analyze network traffic</li>
+<li><a href="https://linux.die.net/man/1/tsort">tsort</a> perform topological sort</li>
+<li><a href="https://linux.die.net/man/1/tty">tty</a> print the file name of the terminal connected to standard input</li>
+<li><a href="https://linux.die.net/man/8/umount">umount</a> Unmount filesystems</li>
+<li><a href="https://linux.die.net/man/1/uname">uname</a> print system information</li>
+<li><a href="https://github.com/google/brotli">unbrotli</a> compress or decompress files</li>
+<li><a href="https://linux.die.net/man/1/unexpand">unexpand</a> convert spaces to tabs</li>
+<li><a href="https://linux.die.net/man/1/uniq">uniq</a> report or omit repeated lines</li>
+<li><a href="https://linux.die.net/man/2/unlink">unlink</a> call the unlink function to remove the specified file</li>
+<li><a href="https://linux.die.net/man/1/xz">unlzma</a> Compress or decompress .xz and .lzma files</li>
+<li><a href="https://linux.die.net/man/1/xz">unxz</a> Compress or decompress .xz and .lzma files</li>
+<li><a href="https://linux.die.net/man/1/unzip">unzip</a> list, test and extract compressed files in a ZIP archive</li>
+<li><a href="https://upx.github.io/">upx</a> compress or expand executable files</li>
+<li><a href="https://linux.die.net/man/8/useradd">useradd</a> create a new user or update default new user information</li>
+<li><a href="https://linux.die.net/man/8/userdel">userdel</a> delete a user account and related files</li>
+<li><a href="https://linux.die.net/man/8/usermod">usermod</a> modify a user account</li>
+<li><a href="https://linux.die.net/man/1/users">users</a> print the user names of users currently logged in to the current host</li>
+<li><a href="https://www.vagrantup.com/">vagrant</a> tool for building and managing virtual machine environments</li>
+<li><a href="https://www.vaultproject.io/">vault</a> A tool for secrets management</li>
+<li><a href="https://linux.die.net/man/1/vdir">vdir</a> list directory contents</li>
+<li><a href="https://vercel.com/">vercel</a> Develop. Preview. Ship.</li>
+<li><a href="https://en.wikipedia.org/wiki/Vi">vi</a> screen oriented (visual) display editor based on ex</li>
+<li><a href="https://siyanpanayotov.com/project/viewnior">viewnior</a> simple, fast and elegant image viewer</li>
+<li><a href="https://linux.die.net/man/8/visudo">visudo</a> safely edit the sudoers file</li>
+<li><a href="https://github.com/sharkdp/vivid">vivid</a> LS_COLORS manager with multiple themes</li>
+<li><a href="https://www.videolan.org/vlc/">vlc</a> the VLC media player</li>
+<li><a href="https://volta.sh/">volta</a> The JavaScript Launcher</li>
+<li><a href="https://linux.die.net/man/1/watch">watch</a> execute a program periodically, showing output fullscreen</li>
+<li><a href="https://github.com/watchexec/watchexec">watchexec</a> Execute commands when watched files change</li>
+<li><a href="https://www.gnupg.org/documentation/manuals/gnupg/watchgnupg.html">watchgnupg</a> Read and print logs from a socket</li>
+<li><a href="https://www.waypointproject.io/">waypoint</a> Easy application deployment for Kubernetes and Amazon ECS</li>
+<li><a href="https://linux.die.net/man/1/wc">wc</a> print newline, word, and byte counts for each file</li>
+<li><a href="https://linux.die.net/man/1/w">w</a> Show who is logged on and what they are doing</li>
+<li><a href="https://www.gnu.org/software/wget/">wget</a> a non-interactive network retriever</li>
+<li><a href="https://linux.die.net/man/1/whereis">whereis</a> Locate the binary, source, and manual-page files for a command</li>
+<li><a href="https://linux.die.net/man/1/which">which</a> Write the full path of COMMAND(s) to standard output</li>
+<li><a href="https://linux.die.net/man/1/whoami">whoami</a> print effective userid</li>
+<li><a href="https://linux.die.net/man/1/who">who</a> show who is logged on</li>
+<li><a href="https://wiki.winehq.org/Wineboot">wineboot</a> perform Wine initialization, startup, and shutdown task</li>
+<li><a href="https://www.winehq.org/">wine</a> run Windows programs on Unix</li>
+<li><a href="https://wiki.winehq.org/Winepath">winepath</a> Tool to convert Unix paths to/from Win32 paths</li>
+<li><a href="https://wiki.winehq.org/Wineserver">wineserver</a> the Wine server</li>
+<li><a href="https://wiki.winehq.org/Winetricks">winetricks</a> manage virtual Windows environments using Wine</li>
+<li><a href="https://github.com/google/wire">wire</a> Compile-time Dependency Injection for Go</li>
+<li><a href="https://www.wireshark.org/">wireshark</a> Interactively dump and analyze network traffic</li>
+<li><a href="https://github.com/WoeUSB/WoeUSB-ng">woeusb</a> A Linux program to create a Windows USB stick installer</li>
+<li><a href="https://linux.die.net/man/1/xargs">xargs</a> build and execute command lines from standard input</li>
+<li><a href="https://linux.die.net/man/1/xbacklight">xbacklight</a> adjust backlight brightness using RandR extension</li>
+<li><a href="https://github.com/jordansissel/xdotool">xdotool</a> command-line X11 automation tool</li>
+<li><a href="https://xon.sh/">xonsh</a> Python-powered shell</li>
+<li><a href="https://linux.die.net/man/1/xz">xzcat</a> Compress or decompress .xz and .lzma files</li>
+<li><a href="https://linux.die.net/man/1/xz">xz</a> Compress or decompress .xz and .lzma files</li>
+<li><a href="https://linux.die.net/man/1/yes">yes</a> output a string repeatedly until killed</li>
+<li><a href="https://github.com/sclevine/yj">yj</a> Convert between YAML, TOML, JSON, and HCL</li>
+<li><a href="https://github.com/ytdl-org/youtube-dl">youtube-dl</a> download videos from youtube.com or other video platforms</li>
+<li><a href="https://pwmt.org/projects/zathura/">zathura</a> a document viewer</li>
+<li><a href="https://linux.die.net/man/1/zcat">zcat</a> compress or expand files</li>
+<li><a href="https://linux.die.net/man/1/zip">zip</a> package and compress (archive) files</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="setup.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="bridge.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="setup.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="bridge.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
